@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.my-container {
+    min-width: calc(max(50%, 300px));
+}
