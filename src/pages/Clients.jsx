@@ -1,19 +1,18 @@
 import React, { createRef, useState } from "react";
 import { useStateValue } from "../context/StateProvider";
 
-import { saveClient } from "../utils/firebaseFunctions";
+import { getClientsForCobrador, saveClient } from "../utils/firebaseFunctions";
+import { actionType } from "../context/reducer";
 
 const Clients = () => {
   // Obtener regerencias
   const clientNameRef = createRef();
 
   // Hooks
-  const [{ user }] = useStateValue();
+  const [{ user, clientsForCobrador }, reducer] = useStateValue();
   const [clientAdding, setClientAdding] = useState("none"); //none, creating
-  const [clients, setClients] = useState([]);
 
-  console.log(user);
-
+  console.log(clientsForCobrador);
   const handleAddingClient = () => {
     const newClient = clientNameRef.current.value;
     console.log("id del user: ", user.uid);
@@ -27,8 +26,11 @@ const Clients = () => {
     saveClient(clienteDatos);
 
     //use set functions
-    setClients([...clients, newClient]);
-    console.log("clientes: ", clients);
+    reducer({
+      type: actionType.SET_CLIENTS_FOR_COBRADOR,
+      clients: [...clientsForCobrador, clienteDatos.name],
+    });
+    console.log("clientes: ", clientsForCobrador);
     setClientAdding("none");
   };
 
@@ -38,7 +40,7 @@ const Clients = () => {
       <div className="border-2 my-4 my-container mx-auto border-gray-500"></div>
       <div className="flex flex-col items-center">
         {/* seccion de clientes */}
-        {clients?.map((client, id) => (
+        {clientsForCobrador?.map((client, id) => (
           <div
             className="my-container my-1 py-2 bg-blue-600 text-white rounded-xl text-center"
             key={id}

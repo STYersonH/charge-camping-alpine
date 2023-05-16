@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 // import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { app } from "../firebase";
 
 import Avatar from "../img/avatar.png";
 
@@ -11,28 +8,8 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 
 const Header = () => {
-  // obtener un provedor de google para la autenticacion
-  const firebaseAuth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-
   const [{ user }, reducer] = useStateValue();
   const navigate = useNavigate();
-
-  const login = async () => {
-    if (!user) {
-      const {
-        user: { refreshToken, providerData },
-      } = await signInWithPopup(firebaseAuth, provider);
-
-      //establecer a nivel general el usuario
-      reducer({
-        type: actionType.SET_USER,
-        user: providerData[0],
-      });
-
-      localStorage.setItem("user", JSON.stringify(providerData[0]));
-    }
-  };
 
   const logout = () => {
     //quitar al usuario del nivel general
@@ -41,13 +18,28 @@ const Header = () => {
       user: null,
     });
 
+    reducer({
+      type: actionType.SET_CLIENTS_FOR_COBRADOR,
+      user: null,
+    });
+
     localStorage.clear();
     navigate("/auth");
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user]);
+
   return (
     <header className="flex justify-between p-3 items-center bg-gray-300">
-      <Link to={"/"} className="" onClick={() => setIsMenu(false)}>
+      <Link to={"/"} className="">
         <p>Charge-System</p>
       </Link>
 

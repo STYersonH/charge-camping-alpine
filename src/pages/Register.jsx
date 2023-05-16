@@ -1,9 +1,9 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import React from "react";
 import { useStateValue } from "../context/StateProvider";
 import { app } from "../firebase";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { actionType } from "../context/reducer";
+import { useEffect } from "react";
 
 const Register = () => {
   // obtener un provedor de google para la autenticacion
@@ -15,10 +15,13 @@ const Register = () => {
 
   // funciones handle
   const handleIniciarSesion = async () => {
+    // iniciar sesion
     if (!user) {
+      // iniciar sesión
       await login();
-      navigate("/");
     }
+    console.log("user en handle: ", user);
+    navigate("/");
   };
 
   const login = async () => {
@@ -26,9 +29,8 @@ const Register = () => {
       const {
         user: { refreshToken, providerData },
       } = await signInWithPopup(firebaseAuth, provider);
-
       //establecer a nivel general el usuario
-      reducer({
+      await reducer({
         type: actionType.SET_USER,
         user: providerData[0],
       });
@@ -36,6 +38,12 @@ const Register = () => {
       localStorage.setItem("user", JSON.stringify(providerData[0]));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
