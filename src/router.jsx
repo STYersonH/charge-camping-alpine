@@ -3,6 +3,7 @@ import Register from "./pages/Register";
 import Layout from "./layouts/layout";
 import Clients from "./pages/Clients";
 import RegisterClient from "./pages/RegisterClient";
+import ClientMain from "./pages/ClientMain";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/agregar-cliente",
     element: <RegisterClient />,
+  },
+  {
+    path: "/:usernameCliente",
+    element: <ClientMain />,
   },
 ]);
 

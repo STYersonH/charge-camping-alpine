@@ -13,7 +13,7 @@ const Clients = () => {
   const navigate = useNavigate();
   const [{ clientsForCobrador }] = useStateValue();
   const [clientAdding, setClientAdding] = useState("none"); //none, creating
-
+  console.log("clients for cobrador desde clients: ", clientsForCobrador);
   return (
     <div className="flex flex-col justify-center mt-3">
       <h1 className="text-3xl text-center ">Clientes</h1>
@@ -22,10 +22,13 @@ const Clients = () => {
         {/* seccion de clientes */}
         {clientsForCobrador?.map((client, id) => (
           <div
-            className="my-container my-1 py-2 bg-blue-600 text-white rounded-xl text-center"
+            className="my-container my-1 py-2 border-2 border-blue-600 bg-blue-600 hover:bg-white hover:text-blue-600 text-white rounded-xl text-center cursor-pointer"
             key={id}
+            onClick={() => {
+              navigate(`/${client.username}`);
+            }}
           >
-            {client}
+            {client.name}
           </div>
         ))}
         <div></div>

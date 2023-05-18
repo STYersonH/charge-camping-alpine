@@ -15,7 +15,7 @@ const Layout = () => {
     console.log("clientitos desde Register: ", clientitos);
     reducer({
       type: actionType.SET_CLIENTS_FOR_COBRADOR,
-      clients: mappedClients,
+      clients: clientitos,
     });
   };
 

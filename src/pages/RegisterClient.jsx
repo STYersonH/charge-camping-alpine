@@ -4,6 +4,7 @@ import { useStateValue } from "../context/StateProvider";
 import { saveClient } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
+import slugify from "slugify";
 
 const RegisterClient = () => {
   // Obtener regerencias
@@ -26,11 +27,13 @@ const RegisterClient = () => {
     const DNIClient = clientDNIRef.current.value;
     const ciudadClient = clientCiudadRef.current.value;
     const centroComercialClient = clientCentroComercialRef.current.value;
+    const usernameClient = slugify(nameClient, { lower: true });
     console.log("id del user: ", user.uid);
     //crear objeto cliente
     const clienteDatos = {
       idCobrador: user.uid,
       name: nameClient,
+      username: usernameClient,
       celular: numberClient,
       dni: DNIClient,
       ciudad: ciudadClient,
@@ -43,7 +46,8 @@ const RegisterClient = () => {
     if (clientsForCobrador) {
       reducer({
         type: actionType.SET_CLIENTS_FOR_COBRADOR,
-        clients: [...clientsForCobrador, clienteDatos.name],
+        //clients: [...clientsForCobrador, clienteDatos.name],
+        clients: [...clientsForCobrador, clienteDatos],
       });
     } else {
       reducer({
