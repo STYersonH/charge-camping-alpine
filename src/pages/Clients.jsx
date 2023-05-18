@@ -3,36 +3,16 @@ import { useStateValue } from "../context/StateProvider";
 
 import { getClientsForCobrador, saveClient } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
+import { useNavigate } from "react-router-dom";
 
 const Clients = () => {
   // Obtener regerencias
   const clientNameRef = createRef();
 
   // Hooks
-  const [{ user, clientsForCobrador }, reducer] = useStateValue();
+  const navigate = useNavigate();
+  const [{ clientsForCobrador }] = useStateValue();
   const [clientAdding, setClientAdding] = useState("none"); //none, creating
-
-  console.log(clientsForCobrador);
-  const handleAddingClient = () => {
-    const newClient = clientNameRef.current.value;
-    console.log("id del user: ", user.uid);
-    //crear objeto cliente
-    const clienteDatos = {
-      idCobrador: user.uid,
-      name: newClient,
-      celular: 991526890,
-      dni: 75674367,
-    };
-    saveClient(clienteDatos);
-
-    //use set functions
-    reducer({
-      type: actionType.SET_CLIENTS_FOR_COBRADOR,
-      clients: [...clientsForCobrador, clienteDatos.name],
-    });
-    console.log("clientes: ", clientsForCobrador);
-    setClientAdding("none");
-  };
 
   return (
     <div className="flex flex-col justify-center mt-3">
@@ -54,7 +34,10 @@ const Clients = () => {
           {clientAdding === "none" && (
             <div
               className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-3xl cursor-pointer"
-              onClick={() => setClientAdding("creating")}
+              // onClick={() => setClientAdding("creating")}
+              onClick={() => {
+                navigate("/agregar-cliente");
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

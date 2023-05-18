@@ -28,9 +28,9 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
+    // if (user) {
+    //   navigate("/");
+    // }
 
     if (!user) {
       navigate("/auth");
