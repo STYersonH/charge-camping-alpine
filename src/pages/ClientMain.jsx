@@ -7,32 +7,27 @@ const ClientMain = () => {
   // Hooks
   const navigate = useNavigate();
   const { usernameCliente } = useParams();
-  const [{ clientsForCobrador }] = useStateValue();
-  console.log("clients for cobrador desde clientMain: ", clientsForCobrador);
-
-  const obtenerClienteRutaActual = () => {
-    const clientDeRuta = clientsForCobrador?.filter(
-      (client) => client.username === usernameCliente
-    )[0];
-    console.log(clientDeRuta);
-    return clientDeRuta;
-  };
-
-  const clientDeRuta = obtenerClienteRutaActual();
+  const [{ clientsForCobrador, clientActual }, reducer] = useStateValue();
+  console.log("client actual: ", clientActual);
 
   return (
     <div>
       <Header />
       <main className="h-[700px] flex flex-col justify-center items-center">
         <div className="my-10 p-2 bg-blue-500 w-container rounded-xl">
-          <p className="text-white text-xl text-center">{clientDeRuta?.name}</p>
+          <p className="text-white text-xl text-center">{clientActual?.name}</p>
         </div>
         {/* mostrar monto */}
         <div className="border-4 py-9 px-[70px] border-black rounded-2xl">
-          <p className="text-5xl">s/. 90.00</p>
+          <p className="text-5xl">s/.{clientActual?.saldo}.00</p>
         </div>
         {/* Botones para cambiar el monto  */}
-        <div className="flex gap-5">
+        <div
+          className="flex gap-5"
+          onClick={() => {
+            navigate(`/${usernameCliente}/agregar-monto`);
+          }}
+        >
           <div className="my-10 py-2 px-5 bg-red-500 hover:bg-red-600 rounded-xl cursor-pointer">
             <p className="text-white">agregar monto</p>
           </div>

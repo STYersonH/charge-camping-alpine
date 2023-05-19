@@ -1,7 +1,7 @@
 import React, { createRef } from "react";
 import Header from "../components/Header";
 import { useStateValue } from "../context/StateProvider";
-import { saveClient } from "../utils/firebaseFunctions";
+import { saveClient, createHistorialClient } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
 import slugify from "slugify";
@@ -38,7 +38,9 @@ const RegisterClient = () => {
       dni: DNIClient,
       ciudad: ciudadClient,
       centroComercial: centroComercialClient,
+      saldo: 0,
     };
+    createHistorialClient(clienteDatos.dni);
     saveClient(clienteDatos);
     console.log("cliente datos:", clienteDatos.name);
 
@@ -90,7 +92,7 @@ const RegisterClient = () => {
               ref={clientNumberRef}
             />
           </div>
-
+          {/* Falta restringir que tenga 8 digitos obligatoriamente */}
           <div className="m-3">
             <label htmlFor="" className="pb-2">
               DNI:

@@ -10,7 +10,8 @@ import {
 
 //Saving a new client
 export const saveClient = async (data) => {
-  await setDoc(doc(db, "clients", `${Date.now()}`), data, {
+  await setDoc(doc(db, "clients", data.dni), data, {
+    //id anterior : `${Date.now()}`
     merge: true,
   });
 };
@@ -22,4 +23,27 @@ export const getClientsForCobrador = async (idCobrador) => {
   const clients = await getDocs(q);
 
   return clients.docs.map((doc) => doc.data());
+};
+
+// Create a new historial for new client
+//Saving a new client
+export const createHistorialClient = async (idCliente) => {
+  const data = {
+    idCliente: idCliente,
+    saldo: 0,
+    tipoAccion: "inicial",
+    cantidad: null,
+    modelo: null,
+    monto: 0,
+  };
+  await setDoc(doc(db, "historial", `${idCliente}${Date.now()}`), data, {
+    merge: true,
+  });
+};
+
+export const agregarMonto = async (data) => {
+  //data -> idCliente, saldo, tipoAccion, cantidad, modelo, monto
+  await setDoc(doc(db, "historial", `${data.idCliente}${Date.now()}`), data, {
+    merge: true,
+  });
 };

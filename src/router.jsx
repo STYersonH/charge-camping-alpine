@@ -4,6 +4,7 @@ import Layout from "./layouts/layout";
 import Clients from "./pages/Clients";
 import RegisterClient from "./pages/RegisterClient";
 import ClientMain from "./pages/ClientMain";
+import AgregarMonto from "./pages/AgregarMonto";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/:usernameCliente",
     element: <ClientMain />,
+  },
+  {
+    path: "/:usernameCliente/agregar-monto",
+    element: <AgregarMonto />,
   },
 ]);
 

@@ -11,7 +11,7 @@ const Clients = () => {
 
   // Hooks
   const navigate = useNavigate();
-  const [{ clientsForCobrador }] = useStateValue();
+  const [{ clientsForCobrador }, reducer] = useStateValue();
   const [clientAdding, setClientAdding] = useState("none"); //none, creating
   console.log("clients for cobrador desde clients: ", clientsForCobrador);
   return (
@@ -25,6 +25,10 @@ const Clients = () => {
             className="my-container my-1 py-2 border-2 border-blue-600 bg-blue-600 hover:bg-white hover:text-blue-600 text-white rounded-xl text-center cursor-pointer"
             key={id}
             onClick={() => {
+              reducer({
+                type: actionType.SET_CLIENT_IN_USE,
+                clientActual: client,
+              });
               navigate(`/${client.username}`);
             }}
           >
