@@ -6,6 +6,7 @@ import {
   setDoc,
   where,
   query,
+  updateDoc,
 } from "firebase/firestore";
 
 //Saving a new client
@@ -25,6 +26,16 @@ export const getClientsForCobrador = async (idCobrador) => {
   return clients.docs.map((doc) => doc.data());
 };
 
+// Get client with id
+export const getClient = async (idClient) => {
+  const clientsRef = collection(db, "clients");
+  const q = query(clientsRef, where("dni", "==", idClient));
+  const clients = await getDocs(q);
+
+  const arrayClients = clients.docs.map((doc) => doc.data());
+  return arrayClients[0];
+};
+
 // Create a new historial for new client
 //Saving a new client
 export const createHistorialClient = async (idCliente) => {
@@ -41,9 +52,16 @@ export const createHistorialClient = async (idCliente) => {
   });
 };
 
-export const agregarMonto = async (data) => {
+export const agregarHistorial = async (data) => {
   //data -> idCliente, saldo, tipoAccion, cantidad, modelo, monto
   await setDoc(doc(db, "historial", `${data.idCliente}${Date.now()}`), data, {
     merge: true,
+  });
+};
+
+export const actualizarMonto = async (nuevoSaldo, idCliente) => {
+  const clienteRef = doc(db, "clients", idCliente);
+  await updateDoc(clienteRef, {
+    saldo: nuevoSaldo,
   });
 };

@@ -5,6 +5,7 @@ import Clients from "./pages/Clients";
 import RegisterClient from "./pages/RegisterClient";
 import ClientMain from "./pages/ClientMain";
 import AgregarMonto from "./pages/AgregarMonto";
+import DescontarMonto from "./pages/DescontarMonto";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/:usernameCliente/agregar-monto",
     element: <AgregarMonto />,
+  },
+  {
+    path: "/:usernameCliente/descontar-monto",
+    element: <DescontarMonto />,
   },
 ]);
 
