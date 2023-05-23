@@ -8,6 +8,7 @@ import {
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
+import BotonGoClient from "../components/BotonGoClient";
 
 const AgregarMonto = () => {
   const navigate = useNavigate();
@@ -30,19 +31,21 @@ const AgregarMonto = () => {
       cantidad: cantidadRef.current.value,
       modelo: modeloMochilaRef.current.value,
       monto: parseFloat(totalRef.current.value),
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(),
     };
 
     await agregarHistorial(datosAgregarMonto);
-    await actualizarMonto(datosAgregarMonto.saldo, clientActual.dni);
+    //await actualizarMonto(datosAgregarMonto.saldo, clientActual.dni);
 
-    const client = await getClient(clientActual.dni);
+    //const client = await getClient(clientActual.dni);
 
-    await reducer({
-      type: actionType.SET_CLIENT_IN_USE,
-      clientActual: client,
-    });
+    // await reducer({
+    //   type: actionType.SET_CLIENT_IN_USE,
+    //   clientActual: client,
+    // });
 
-    navigate(`/${client.userame}`);
+    navigate(`/${clientActual.userame}`);
   };
 
   return (
@@ -98,6 +101,9 @@ const AgregarMonto = () => {
           </div>
         </form>
       </div>
+
+      {/* Regresar a la pagina principal del cliente */}
+      <BotonGoClient />
     </div>
   );
 };

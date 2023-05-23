@@ -46,6 +46,8 @@ export const createHistorialClient = async (idCliente) => {
     cantidad: null,
     modelo: null,
     monto: 0,
+    fecha: new Date().toLocaleDateString(),
+    hora: new Date().toLocaleTimeString(),
   };
   await setDoc(doc(db, "historial", `${idCliente}${Date.now()}`), data, {
     merge: true,
@@ -64,4 +66,54 @@ export const actualizarMonto = async (nuevoSaldo, idCliente) => {
   await updateDoc(clienteRef, {
     saldo: nuevoSaldo,
   });
+};
+
+export const getHistorialByCliente = async (idCliente) => {
+  const HistorialRef = collection(db, "historial");
+  const q = query(HistorialRef, where("idCliente", "==", idCliente));
+  const hitorial = await getDocs(q);
+
+  return hitorial.docs.map((doc) => doc.data());
+};
+
+export const getSaldoCliente = async (idCliente) => {
+  const HistorialRef = collection(db, "historial");
+  const q = query(HistorialRef, where("idCliente", "==", idCliente));
+  const historial = await getDocs(q);
+
+  // Obtener el registro con la fecha y hora más recientes
+  const registroMasReciente = historial.docs.reduce(
+    (registroActual, registroSiguiente) => {
+      const fechaActual = new Date(
+        registroActual
+          .data()
+          .fecha.replace(/(\d{2})\/(\d{1,2})\/(\d{4})/, "$2/$1/$3")
+      );
+      const fechaSiguiente = new Date(
+        registroSiguiente
+          .data()
+          .fecha.replace(/(\d{2})\/(\d{1,2})\/(\d{4})/, "$2/$1/$3")
+      );
+      const horaActual = new Date("1970/01/01 " + registroActual.data().hora);
+      const horaSiguiente = new Date(
+        "1970/01/01 " + registroSiguiente.data().hora
+      );
+
+      if (fechaSiguiente > fechaActual) {
+        return registroSiguiente;
+      } else if (
+        fechaSiguiente.getTime() === fechaActual.getTime() &&
+        horaSiguiente > horaActual
+      ) {
+        return registroSiguiente;
+      } else {
+        return registroActual;
+      }
+    }
+  );
+
+  // Acceder a los datos del registro más reciente
+  const saldoCliente = registroMasReciente.data().saldo;
+
+  return saldoCliente;
 };

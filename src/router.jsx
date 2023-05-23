@@ -6,6 +6,7 @@ import RegisterClient from "./pages/RegisterClient";
 import ClientMain from "./pages/ClientMain";
 import AgregarMonto from "./pages/AgregarMonto";
 import DescontarMonto from "./pages/DescontarMonto";
+import Historial from "./pages/Historial";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/:usernameCliente/descontar-monto",
     element: <DescontarMonto />,
+  },
+  {
+    path: "/:usernameCliente/historial",
+    element: <Historial />,
   },
 ]);
 

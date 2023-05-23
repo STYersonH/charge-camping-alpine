@@ -39,6 +39,8 @@ const RegisterClient = () => {
       ciudad: ciudadClient,
       centroComercial: centroComercialClient,
       saldo: 0,
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(),
     };
     createHistorialClient(clienteDatos.dni);
     saveClient(clienteDatos);

@@ -2,13 +2,44 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useStateValue } from "../context/StateProvider";
 import { useNavigate } from "react-router-dom";
+import Historial from "./Historial";
+import { useEffect, useState } from "react";
+import {
+  actualizarMonto,
+  getClient,
+  getHistorialByCliente,
+  getSaldoCliente,
+} from "../utils/firebaseFunctions";
+import { actionType } from "../context/reducer";
 
 const ClientMain = () => {
   // Hooks
   const navigate = useNavigate();
   const { usernameCliente } = useParams();
   const [{ clientsForCobrador, clientActual }, reducer] = useStateValue();
+  const [saldoCliente, setSaldoCliente] = useState(0);
+
   console.log("client actual: ", clientActual);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      var saldoClient = 0;
+      if ((await getHistorialByCliente(clientActual.dni)).length > 0) {
+        saldoClient = await getSaldoCliente(clientActual.dni);
+      }
+      await actualizarMonto(saldoClient, clientActual.dni);
+      const clienteDatosActualizados = await getClient(clientActual.dni);
+      reducer({
+        type: actionType.SET_CLIENT_IN_USE,
+        //clients: [...clientsForCobrador, clienteDatos.name],
+        clientActual: clienteDatosActualizados,
+      });
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("saldo cliente: ", saldoCliente);
 
   return (
     <div>
@@ -41,7 +72,12 @@ const ClientMain = () => {
           </div>
         </div>
         {/* Botones de otras opciones */}
-        <div className="py-2 px-[94px] bg-gray-400 hover:bg-gray-500 rounded-xl cursor-pointer">
+        <div
+          className="py-2 px-[94px] bg-gray-400 hover:bg-gray-500 rounded-xl cursor-pointer"
+          onClick={() => {
+            navigate(`/${usernameCliente}/historial`);
+          }}
+        >
           <p className="text-white">ver historial</p>
         </div>
         <div className="m-5 py-2 px-20 bg-gray-400 hover:bg-gray-500 rounded-xl cursor-pointer">

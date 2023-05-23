@@ -8,6 +8,7 @@ import {
   getClient,
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
+import BotonGoClient from "../components/BotonGoClient";
 
 const DescontarMonto = () => {
   const navigate = useNavigate();
@@ -25,19 +26,21 @@ const DescontarMonto = () => {
       cantidad: null,
       modelo: null,
       monto: parseFloat(totalRef.current.value),
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(),
     };
 
     await agregarHistorial(datosDescontarMonto);
-    await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
+    //await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
 
-    const client = await getClient(clientActual.dni);
+    //const client = await getClient(clientActual.dni);
 
-    await reducer({
-      type: actionType.SET_CLIENT_IN_USE,
-      clientActual: client,
-    });
+    // await reducer({
+    //   type: actionType.SET_CLIENT_IN_USE,
+    //   clientActual: client,
+    // });
 
-    navigate(`/${client.userame}`);
+    navigate(`/${clientActual.userame}`);
   };
 
   return (
@@ -69,6 +72,9 @@ const DescontarMonto = () => {
           </div>
         </form>
       </div>
+
+      {/* Regresar a la pagina principal del cliente */}
+      <BotonGoClient />
     </div>
   );
 };
