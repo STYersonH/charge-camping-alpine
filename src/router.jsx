@@ -7,6 +7,8 @@ import ClientMain from "./pages/ClientMain";
 import AgregarMonto from "./pages/AgregarMonto";
 import DescontarMonto from "./pages/DescontarMonto";
 import Historial from "./pages/Historial";
+import ProductosMain from "./pages/ProductosMain";
+import RegisterProducto from "./pages/RegisterProducto";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
   {
     path: "/:usernameCliente/historial",
     element: <Historial />,
+  },
+  {
+    path: "/productos",
+    element: <ProductosMain />,
+  },
+  {
+    path: "/agregar-producto",
+    element: <RegisterProducto />,
   },
 ]);
 

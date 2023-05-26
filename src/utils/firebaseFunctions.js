@@ -117,3 +117,19 @@ export const getSaldoCliente = async (idCliente) => {
 
   return saldoCliente;
 };
+
+export const agregarMochila = async (data) => {
+  //data -> idCliente, saldo, tipoAccion, cantidad, modelo, monto
+  await setDoc(doc(db, "mochilas", `Mochila${Date.now()}`), data, {
+    merge: true,
+  });
+};
+
+export const getmochilas = async () => {
+  const mochilasRef = collection(db, "mochilas");
+  const q = query(mochilasRef);
+  const mochilas = await getDocs(q);
+  const arregloInformacionMochilas = mochilas.docs.map((doc) => doc.data());
+
+  return arregloInformacionMochilas;
+};

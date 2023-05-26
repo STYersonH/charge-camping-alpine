@@ -2,6 +2,7 @@ export const actionType = {
   SET_USER: "SET_USER",
   SET_CLIENTS_FOR_COBRADOR: "SET_CLIENTS_FOR_COBRADOR",
   SET_CLIENT_IN_USE: "SET_CLIENT_IN_USE",
+  SET_MOCHILAS: "SET_MOCHILAS",
 };
 
 const reducer = (state, action) => {
@@ -24,6 +25,12 @@ const reducer = (state, action) => {
         ...state, //sin esto, se reiniciaran los demas valores
         // con el valor inicial
         clientActual: action.clientActual,
+      };
+    }
+    case actionType.SET_MOCHILAS: {
+      return {
+        ...state,
+        mochilas: action.mochilas,
       };
     }
   }
