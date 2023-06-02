@@ -112,6 +112,8 @@ export const getSaldoCliente = async (idCliente) => {
     }
   );
 
+  console.log("El registro mas reciente: ", registroMasReciente.data());
+
   // Acceder a los datos del registro más reciente
   const saldoCliente = registroMasReciente.data().saldo;
 

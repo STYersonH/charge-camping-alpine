@@ -31,7 +31,7 @@ const DescontarMonto = () => {
     };
 
     await agregarHistorial(datosDescontarMonto);
-    //await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
+    await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
 
     //const client = await getClient(clientActual.dni);
 

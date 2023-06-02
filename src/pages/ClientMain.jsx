@@ -21,11 +21,13 @@ const ClientMain = () => {
 
   console.log("client actual: ", clientActual);
 
+  // Actualizar el saldo del cliente cada vez que se renderice el componente
   useEffect(() => {
     const fetchData = async () => {
       var saldoClient = 0;
       if ((await getHistorialByCliente(clientActual.dni)).length > 0) {
         saldoClient = await getSaldoCliente(clientActual.dni);
+        console.log("saldo client: ", saldoClient);
       }
       await actualizarMonto(saldoClient, clientActual.dni);
       const clienteDatosActualizados = await getClient(clientActual.dni);
