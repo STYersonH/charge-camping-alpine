@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import Header from "../components/Header";
 import { useStateValue } from "../context/StateProvider";
 import { useNavigate } from "react-router-dom";
 import Historial from "./Historial";
@@ -11,6 +10,7 @@ import {
   getSaldoCliente,
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
+import HeaderConBoton from "../components/HeaderConBoton";
 
 const ClientMain = () => {
   // Hooks
@@ -45,7 +45,7 @@ const ClientMain = () => {
 
   return (
     <div>
-      <Header />
+      <HeaderConBoton link2regresar={""} />
       <main className="h-[700px] flex flex-col justify-center items-center">
         <div className="my-10 p-2 bg-blue-500 w-container rounded-xl">
           <p className="text-white text-xl text-center">{clientActual?.name}</p>
@@ -84,28 +84,6 @@ const ClientMain = () => {
         </div>
         <div className="m-5 py-2 px-20 bg-gray-400 hover:bg-gray-500 rounded-xl cursor-pointer">
           <p className="text-white">Realizar pedido</p>
-        </div>
-        {/* Regresar al menu de clientes */}
-        <div
-          className="h-[45px] w-[60px] rounded-full bg-red-600 flex flex-col justify-center items-center mt-10 hover:bg-red-700"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8 text-white font-bold"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-            />
-          </svg>
         </div>
       </main>
     </div>

@@ -2,15 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 
-const BotonGoClient = () => {
+const BotonGoLink = ({ link2regresar }) => {
   const [{ clientActual }, reducer] = useStateValue();
   const navigate = useNavigate();
   return (
     // Regresar a la pagina principal del cliente
-    <div className="w-full flex justify-center">
+    <div className="flex justify-center h-[35px]">
       <div
-        className="h-[35px] w-[50px] rounded-full bg-red-600 flex flex-col justify-center items-center mt-10 hover:bg-red-700"
-        onClick={() => navigate(`/${clientActual.username}`)}
+        className="h-[35px] w-[50px] rounded-full bg-red-600 flex flex-col justify-center items-center hover:bg-red-700"
+        onClick={() => {
+          navigate(`/${link2regresar}`);
+          console.log("link2regresar: ", link2regresar);
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,4 +34,4 @@ const BotonGoClient = () => {
   );
 };
 
-export default BotonGoClient;
+export default BotonGoLink;

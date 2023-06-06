@@ -9,6 +9,7 @@ import {
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import BotonGoClient from "../components/BotonGoClient";
+import HeaderConBoton from "../components/HeaderConBoton";
 
 const DescontarMonto = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const DescontarMonto = () => {
 
   return (
     <div className="flex flex-col justify-center">
-      <Header />
+      <HeaderConBoton link2regresar={clientActual.username} />
       <h1 className="text-3xl text-center mt-5">Descontar monto</h1>
       <div className="border-2 my-4 my-container mx-auto border-gray-500"></div>
       <div className="flex flex-col items-center">
@@ -72,9 +73,6 @@ const DescontarMonto = () => {
           </div>
         </form>
       </div>
-
-      {/* Regresar a la pagina principal del cliente */}
-      <BotonGoClient />
     </div>
   );
 };

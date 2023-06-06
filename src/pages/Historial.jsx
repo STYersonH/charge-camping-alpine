@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import AgregarHistorial from "../components/AgregarHistorial";
 import { useNavigate } from "react-router-dom";
 import BotonGoClient from "../components/BotonGoClient";
+import HeaderConBoton from "../components/HeaderConBoton";
 
 const Historial = () => {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ const Historial = () => {
 
   return (
     <div className="">
-      <Header />
-      <div className="flex justify-around">
+      <HeaderConBoton link2regresar={clientActual.username} />
+      <div className="flex justify-around mt-10">
         <p>Tipo</p>
         <p>Monto</p>
         <p>Fecha</p>
@@ -39,9 +40,6 @@ const Historial = () => {
           <AgregarHistorial historial={hist} />
         </div>
       ))}
-
-      {/* Regresar a la pagina principal del cliente */}
-      <BotonGoClient />
     </div>
   );
 };
