@@ -100,7 +100,7 @@ const RegisterClient = () => {
               DNI:
             </label>
             <input
-              type="text"
+              type="number"
               placeholder="ingresar DNI"
               className="border-2 p-2 w-full rounded-2xl"
               ref={clientDNIRef}

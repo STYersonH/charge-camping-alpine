@@ -47,7 +47,12 @@ const ClientMain = () => {
     <div>
       <HeaderConBoton link2regresar={""} />
       <main className="h-[700px] flex flex-col justify-center items-center">
-        <div className="my-10 p-2 bg-blue-500 w-container rounded-xl">
+        <div
+          className="my-10 p-2 bg-blue-500 hover:bg-blue-600 w-container rounded-xl cursor-pointer"
+          onClick={() => {
+            navigate(`/${clientActual.username}/info`);
+          }}
+        >
           <p className="text-white text-xl text-center">{clientActual?.name}</p>
         </div>
         {/* mostrar monto */}

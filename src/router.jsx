@@ -10,6 +10,7 @@ import Historial from "./pages/Historial";
 import ProductosMain from "./pages/ProductosMain";
 import RegisterProducto from "./pages/RegisterProducto";
 import EditarProducto from "./pages/EditarProducto";
+import { InformacionClient } from "./pages/InformacionClient";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/:usernameCliente",
     element: <ClientMain />,
+  },
+  {
+    path: "/:usernameCliente/info",
+    element: <InformacionClient />,
   },
   {
     path: "/:usernameCliente/agregar-monto",
