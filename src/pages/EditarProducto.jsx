@@ -1,12 +1,16 @@
 import React, { createRef } from "react";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
-import { agregarMochila } from "../utils/firebaseFunctions";
+import {
+  actualizarInfoMochila,
+  agregarMochila,
+  getmochilas,
+} from "../utils/firebaseFunctions";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
 
-const RegisterProducto = () => {
+const EditarProducto = () => {
   // Obtener regerencias
   const productoModelRef = createRef();
   const productoTipoRef = createRef();
@@ -15,9 +19,9 @@ const RegisterProducto = () => {
   const productoStockRef = createRef();
 
   const navigate = useNavigate();
-  const [{ user, mochilas }, reducer] = useStateValue();
+  const [{ modeloProductoActual, mochilas }, reducer] = useStateValue();
 
-  const handleAddingProduct = (e) => {
+  const handleAddingProduct = async (e) => {
     //prevenir la accion de enviar el formulario
     e.preventDefault();
 
@@ -28,7 +32,6 @@ const RegisterProducto = () => {
     const stockProduct = productoStockRef.current.value;
     //crear objeto cliente
     const productDatos = {
-      id: `Mochila${Date.now()}`,
       model: modelProduct,
       tipe: tipoProduct,
       price: parseFloat(priceProduct),
@@ -37,14 +40,14 @@ const RegisterProducto = () => {
       fechaAdiccion: new Date().toLocaleDateString(),
       horaAdiccion: new Date().toLocaleTimeString(),
     };
-    agregarMochila(productDatos);
+    await actualizarInfoMochila(productDatos, modeloProductoActual.id);
 
-    console.log("productos: ", mochilas);
-    console.log("productos con productDatos", [...mochilas, productDatos]);
+    const mochilasActualizadas = await getmochilas();
 
+    // Actualizar el estado global de mochilas
     reducer({
       type: actionType.SET_MOCHILAS,
-      mochilas: [...mochilas, productDatos],
+      mochilas: mochilasActualizadas,
     });
 
     navigate("/productos");
@@ -53,7 +56,7 @@ const RegisterProducto = () => {
   return (
     <div className="flex flex-col justify-center">
       <HeaderConBoton link2regresar={"productos"} />
-      <h1 className="text-3xl text-center mt-5">agregar producto</h1>
+      <h1 className="text-3xl text-center mt-5">editar producto</h1>
       <div className="border-2 my-4 my-container mx-auto border-gray-500"></div>
       <div className="flex flex-col items-center">
         <form className="my-container " onSubmit={handleAddingProduct}>
@@ -66,6 +69,7 @@ const RegisterProducto = () => {
               placeholder="ingresar nombre del producto"
               className="border-2 p-2 w-full rounded-2xl"
               ref={productoModelRef}
+              defaultValue={modeloProductoActual.model}
             />
           </div>
 
@@ -78,6 +82,7 @@ const RegisterProducto = () => {
               placeholder="mochila, maletin, cartera...escribir"
               className="border-2 p-2 w-full rounded-2xl"
               ref={productoTipoRef}
+              defaultValue={modeloProductoActual.tipe}
             />
           </div>
 
@@ -90,6 +95,7 @@ const RegisterProducto = () => {
               placeholder="ingresar precio en soles"
               className="border-2 p-2 w-full rounded-2xl"
               ref={productoPrecioRef}
+              defaultValue={modeloProductoActual.price}
             />
           </div>
 
@@ -102,6 +108,7 @@ const RegisterProducto = () => {
               placeholder="escribir las caracteristicas del producto"
               className="border-2 p-2 w-full rounded-2xl"
               ref={productoCaracteristicasRef}
+              defaultValue={modeloProductoActual.caracteristics}
             />
           </div>
 
@@ -114,13 +121,14 @@ const RegisterProducto = () => {
               placeholder="ingresar stock (opcional)"
               className="border-2 p-2 w-full rounded-2xl"
               ref={productoStockRef}
+              defaultValue={modeloProductoActual.stock}
             />
           </div>
 
           <div className="w-full flex justify-center">
             <input
               type="submit"
-              value="Agregar producto"
+              value="confirmar edicion"
               className="text-white border-white bg-blue-400 hover:bg-blue-500 rounded-3xl py-2.5 px-20 my-10 cursor-pointer"
             />
           </div>
@@ -130,4 +138,4 @@ const RegisterProducto = () => {
   );
 };
 
-export default RegisterProducto;
+export default EditarProducto;

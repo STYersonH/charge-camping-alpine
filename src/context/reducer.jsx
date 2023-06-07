@@ -2,6 +2,7 @@ export const actionType = {
   SET_USER: "SET_USER",
   SET_CLIENTS_FOR_COBRADOR: "SET_CLIENTS_FOR_COBRADOR",
   SET_CLIENT_IN_USE: "SET_CLIENT_IN_USE",
+  SET_MODEL_PRODUCT_IN_USE: "SET_MODEL_PRODUCT_IN_USE",
   SET_MOCHILAS: "SET_MOCHILAS",
 };
 
@@ -31,6 +32,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         mochilas: action.mochilas,
+      };
+    }
+    case actionType.SET_MODEL_PRODUCT_IN_USE: {
+      return {
+        ...state,
+        modeloProductoActual: action.modeloProductoActual,
       };
     }
   }

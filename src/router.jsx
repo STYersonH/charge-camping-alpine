@@ -9,6 +9,7 @@ import DescontarMonto from "./pages/DescontarMonto";
 import Historial from "./pages/Historial";
 import ProductosMain from "./pages/ProductosMain";
 import RegisterProducto from "./pages/RegisterProducto";
+import EditarProducto from "./pages/EditarProducto";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: "/agregar-producto",
     element: <RegisterProducto />,
+  },
+  {
+    path: "/editar-producto",
+    element: <EditarProducto />,
   },
 ]);
 

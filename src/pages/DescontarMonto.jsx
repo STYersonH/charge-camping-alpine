@@ -8,7 +8,6 @@ import {
   getClient,
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
-import BotonGoClient from "../components/BotonGoClient";
 import HeaderConBoton from "../components/HeaderConBoton";
 
 const DescontarMonto = () => {

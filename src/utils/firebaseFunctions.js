@@ -122,8 +122,21 @@ export const getSaldoCliente = async (idCliente) => {
 
 export const agregarMochila = async (data) => {
   //data -> idCliente, saldo, tipoAccion, cantidad, modelo, monto
-  await setDoc(doc(db, "mochilas", `Mochila${Date.now()}`), data, {
+  await setDoc(doc(db, "mochilas", data.id), data, {
     merge: true,
+  });
+};
+
+export const actualizarInfoMochila = async (data, id) => {
+  const mochilaRef = doc(db, "mochilas", id);
+  await updateDoc(mochilaRef, {
+    model: data.model,
+    tipe: data.tipe,
+    price: data.price,
+    caracteristics: data.caracteristics,
+    stock: data.stock,
+    fechaAdiccion: data.fechaAdiccion,
+    horaAdiccion: data.horaAdiccion,
   });
 };
 

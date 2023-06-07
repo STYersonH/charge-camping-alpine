@@ -8,7 +8,6 @@ import {
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
-import BotonGoClient from "../components/BotonGoClient";
 import HeaderConBoton from "../components/HeaderConBoton";
 
 const AgregarMonto = () => {

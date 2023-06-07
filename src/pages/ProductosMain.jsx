@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import Header from "../components/Header";
 import HeaderConBoton from "../components/HeaderConBoton";
+import { actionType } from "../context/reducer";
 
 const ProductosMain = () => {
   // Hooks
@@ -20,11 +21,39 @@ const ProductosMain = () => {
           {/* seccion de productos */}
           {mochilas?.map((mochila, id) => (
             <div
-              className="my-container my-1 py-2 border-2 border-blue-600 bg-blue-600 hover:bg-white hover:text-blue-600 text-white rounded-xl text-center cursor-pointer"
+              className="my-container flex justify-between items-center"
               key={id}
-              onClick={() => {}}
             >
-              {mochila.model}
+              <div
+                className="w-full my-1 py-2 border-2 border-blue-600 bg-blue-600 hover:bg-white hover:text-blue-600 text-white rounded-xl text-center cursor-pointer"
+                key={id}
+                onClick={() => {}}
+              >
+                {mochila.model}
+              </div>
+              <div className="mx-2 border-2 border-blue-600 hover:bg-blue-600 rounded-xl p-[7px] group cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-blue-600 cursor-pointer group-hover:text-white"
+                  onClick={() => {
+                    reducer({
+                      type: actionType.SET_MODEL_PRODUCT_IN_USE,
+                      modeloProductoActual: mochila,
+                    });
+                    navigate("/editar-producto");
+                  }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </div>
             </div>
           ))}
           <div></div>

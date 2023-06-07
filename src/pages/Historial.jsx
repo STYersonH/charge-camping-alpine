@@ -4,7 +4,6 @@ import { getHistorialByCliente } from "../utils/firebaseFunctions";
 import Header from "../components/Header";
 import AgregarHistorial from "../components/AgregarHistorial";
 import { useNavigate } from "react-router-dom";
-import BotonGoClient from "../components/BotonGoClient";
 import HeaderConBoton from "../components/HeaderConBoton";
 
 const Historial = () => {

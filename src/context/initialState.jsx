@@ -6,5 +6,6 @@ export const initialState = {
   user: userInfo,
   clientsForCobrador: null,
   clientActual: null,
+  modeloProductoActual: null,
   mochilas: null,
 };
