@@ -1,76 +1,65 @@
 import React, { createRef, useState } from "react";
 import Header from "../components/Header";
-import { useStateValue } from "../context/StateProvider";
-import { saveClient, createHistorialClient } from "../utils/firebaseFunctions";
-import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
+import {
+  agregarMochila,
+  getClient,
+  updateClient,
+} from "../utils/firebaseFunctions";
+import { useStateValue } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
+
 import { centrosComerciales } from "../data/centrosComerciales";
 import { ciudades } from "../data/ciudades";
-import slugify from "slugify";
 
-const RegisterClient = () => {
+import HeaderConBoton from "../components/HeaderConBoton";
+
+const EditarDatosCliente = () => {
   // Obtener regerencias
   const clientNameRef = createRef();
   const clientNumberRef = createRef();
-  const clientDNIRef = createRef();
   const clientCiudadRef = createRef();
   const clientCentroComercialRef = createRef();
 
   const navigate = useNavigate();
-  const [{ user, clientsForCobrador }, reducer] = useStateValue();
+  const [{ clientActual }, reducer] = useStateValue();
   const [ciudadElegida, setCiudadElegida] = useState(ciudades[0]);
 
-  console.log(clientsForCobrador);
-  const handleAddingClient = (e) => {
+  const handleAddingClient = async (e) => {
     //prevenir la accion de enviar el formulario
     e.preventDefault();
 
     const nameClient = clientNameRef.current.value;
     const numberClient = clientNumberRef.current.value;
-    const DNIClient = clientDNIRef.current.value;
     const ciudadClient = clientCiudadRef.current.value;
     const centroComercialClient = clientCentroComercialRef.current.value;
-    const usernameClient = slugify(nameClient, { lower: true });
-    console.log("id del user: ", user.uid);
+
     //crear objeto cliente
     const clienteDatos = {
-      idCobrador: user.uid,
       name: nameClient,
-      username: usernameClient,
       celular: numberClient,
-      dni: DNIClient,
       ciudad: ciudadClient,
       centroComercial: centroComercialClient,
-      saldo: 0,
       fecha: new Date().toLocaleDateString(),
       hora: new Date().toLocaleTimeString(),
     };
-    createHistorialClient(clienteDatos.dni);
-    saveClient(clienteDatos);
-    console.log("cliente datos:", clienteDatos.name);
 
-    //use set functions
-    if (clientsForCobrador) {
-      reducer({
-        type: actionType.SET_CLIENTS_FOR_COBRADOR,
-        //clients: [...clientsForCobrador, clienteDatos.name],
-        clients: [...clientsForCobrador, clienteDatos],
-      });
-    } else {
-      reducer({
-        type: actionType.SET_CLIENTS_FOR_COBRADOR,
-        clients: [clienteDatos.name],
-      });
-    }
-    console.log("clientes: ", clientsForCobrador);
+    await updateClient(clienteDatos, clientActual.dni);
+    const clienteActualizado = await getClient(clientActual.dni);
 
-    navigate("/");
+    console.log("llega hasta aqui");
+    reducer({
+      type: actionType.SET_CLIENT_IN_USE,
+      clientActual: clienteActualizado,
+    });
+
+    navigate(`/${clientActual.username}/info`);
   };
 
   return (
     <div className="flex flex-col justify-center">
-      <Header />
-      <h1 className="text-3xl text-center mt-5">Clientes</h1>
+      <HeaderConBoton link2regresar={`${clientActual.username}/info`} />
+      <h1 className="text-3xl text-center mt-5">Editar datos del cliente</h1>
       <div className="border-2 my-4 my-container mx-auto border-gray-500"></div>
       <div className="flex flex-col items-center">
         <form className="my-container " onSubmit={handleAddingClient}>
@@ -83,6 +72,7 @@ const RegisterClient = () => {
               placeholder="ingresar nombre del cliente"
               className="border-2 p-2 w-full rounded-2xl"
               ref={clientNameRef}
+              defaultValue={clientActual.name}
             />
           </div>
 
@@ -95,18 +85,7 @@ const RegisterClient = () => {
               placeholder="ingresar numero de celuar"
               className="border-2 p-2 w-full rounded-2xl"
               ref={clientNumberRef}
-            />
-          </div>
-          {/* Falta restringir que tenga 8 digitos obligatoriamente */}
-          <div className="m-3">
-            <label htmlFor="" className="pb-2">
-              DNI:
-            </label>
-            <input
-              type="number"
-              placeholder="ingresar DNI"
-              className="border-2 p-2 w-full rounded-2xl"
-              ref={clientDNIRef}
+              defaultValue={clientActual.celular}
             />
           </div>
 
@@ -121,6 +100,7 @@ const RegisterClient = () => {
                 id="opcion"
                 className="bg-white border-2 p-2 rounded-2xl w-full"
                 ref={clientCiudadRef}
+                defaultValue={clientActual.ciudad}
               >
                 {ciudades.map((ciudad) => (
                   <option
@@ -145,6 +125,7 @@ const RegisterClient = () => {
                 id="opcion"
                 className="bg-white border-2 p-2 rounded-2xl  w-full"
                 ref={clientCentroComercialRef}
+                defaultValue={clientActual.centroComercial}
               >
                 {
                   //filtrar los centros comerciales con el id de la ciudad elegida
@@ -168,7 +149,7 @@ const RegisterClient = () => {
           <div className="w-full flex justify-center">
             <input
               type="submit"
-              value="Agregar cliente"
+              value="Guardar cambios"
               className="text-white border-white bg-blue-400 hover:bg-blue-500 rounded-3xl py-2.5 px-20 my-10 cursor-pointer"
             />
           </div>
@@ -178,4 +159,4 @@ const RegisterClient = () => {
   );
 };
 
-export default RegisterClient;
+export default EditarDatosCliente;

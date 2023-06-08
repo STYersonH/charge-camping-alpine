@@ -11,6 +11,8 @@ import ProductosMain from "./pages/ProductosMain";
 import RegisterProducto from "./pages/RegisterProducto";
 import EditarProducto from "./pages/EditarProducto";
 import { InformacionClient } from "./pages/InformacionClient";
+import EditarDatosCliente from "./pages/EditarDatosCliente";
+import RealizarPedido from "./pages/RealizarPedido";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
     element: <InformacionClient />,
   },
   {
+    path: "/:usernameCliente/editar-datos",
+    element: <EditarDatosCliente />,
+  },
+  {
     path: "/:usernameCliente/agregar-monto",
     element: <AgregarMonto />,
   },
@@ -50,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/:usernameCliente/historial",
     element: <Historial />,
+  },
+  {
+    path: "/:usernameCliente/pedido",
+    element: <RealizarPedido />,
   },
   {
     path: "/productos",

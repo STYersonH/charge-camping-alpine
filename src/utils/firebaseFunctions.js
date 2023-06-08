@@ -17,6 +17,19 @@ export const saveClient = async (data) => {
   });
 };
 
+// saving changes of a client
+export const updateClient = async (data, id) => {
+  const clientRef = doc(db, "clients", id);
+  await updateDoc(clientRef, {
+    name: data.name,
+    celular: data.celular,
+    centroComercial: data.centroComercial,
+    ciudad: data.ciudad,
+    fecha: data.fecha,
+    hora: data.hora,
+  });
+};
+
 // Get all clients for a Cobrador
 export const getClientsForCobrador = async (idCobrador) => {
   const clientsRef = collection(db, "clients");

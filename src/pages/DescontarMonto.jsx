@@ -33,12 +33,13 @@ const DescontarMonto = () => {
     await agregarHistorial(datosDescontarMonto);
     await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
 
-    //const client = await getClient(clientActual.dni);
+    const client = await getClient(clientActual.dni);
 
-    // await reducer({
-    //   type: actionType.SET_CLIENT_IN_USE,
-    //   clientActual: client,
-    // });
+    //actualzar el cliente actual despues de descontar monto
+    await reducer({
+      type: actionType.SET_CLIENT_IN_USE,
+      clientActual: client,
+    });
 
     navigate(`/${clientActual.userame}`);
   };

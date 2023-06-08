@@ -87,7 +87,10 @@ const ClientMain = () => {
         >
           <p className="text-white">ver historial</p>
         </div>
-        <div className="m-5 py-2 px-20 bg-gray-400 hover:bg-gray-500 rounded-xl cursor-pointer">
+        <div
+          className="m-5 py-2 px-20 bg-gray-400 hover:bg-gray-500 rounded-xl cursor-pointer"
+          onClick={() => navigate(`${clientActual.username}/pedido`)}
+        >
           <p className="text-white">Realizar pedido</p>
         </div>
       </main>
