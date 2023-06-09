@@ -161,3 +161,12 @@ export const getmochilas = async () => {
 
   return arregloInformacionMochilas;
 };
+
+
+//Saving a new pedido
+export const savePedido = async (data) => {
+  await setDoc(doc(db, "pedidos", data.id), data, {
+    //id anterior : `${Date.now()}`
+    merge: true,
+  });
+};
