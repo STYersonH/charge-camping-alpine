@@ -23,6 +23,7 @@ const RealizarPedido = () => {
 		//crear objeto cliente
 		const productDatos = {
 			id: `pedido${Date.now()}`,
+			client: clientActual.dni,
 			model: modelProduct,
 			detalles: pedidoDetalles,
 			fechaAdiccion: new Date().toLocaleDateString(),

@@ -69,7 +69,7 @@ export const createHistorialClient = async (idCliente) => {
 
 export const agregarHistorial = async (data) => {
   //data -> idCliente, saldo, tipoAccion, cantidad, modelo, monto
-  await setDoc(doc(db, "historial", `${data.idCliente}${Date.now()}`), data, {
+  await setDoc(doc(db, "historial", data.id), data, {
     merge: true,
   });
 };
