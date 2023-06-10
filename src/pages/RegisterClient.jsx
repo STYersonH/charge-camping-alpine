@@ -1,7 +1,11 @@
 import React, { createRef, useState } from "react";
 import Header from "../components/Header";
 import { useStateValue } from "../context/StateProvider";
-import { saveClient, createHistorialClient } from "../utils/firebaseFunctions";
+import {
+	saveClient,
+	createHistorialClient,
+	consultarClientePorDNI,
+} from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
 import { centrosComerciales } from "../data/centrosComerciales";
@@ -20,9 +24,10 @@ const RegisterClient = () => {
 	const navigate = useNavigate();
 	const [{ user, clientsForCobrador }, reducer] = useStateValue();
 	const [ciudadElegida, setCiudadElegida] = useState(ciudades[0]);
+	const [DNIClienteNoDisponible, setDNIClienteNoDisponible] = useState(false);
 
 	console.log(clientsForCobrador);
-	const handleAddingClient = (e) => {
+	const handleAddingClient = async (e) => {
 		//prevenir la accion de enviar el formulario
 		e.preventDefault();
 
@@ -46,26 +51,29 @@ const RegisterClient = () => {
 			fecha: new Date().toLocaleDateString(),
 			hora: new Date().toLocaleTimeString(),
 		};
-		createHistorialClient(clienteDatos.dni);
-		saveClient(clienteDatos);
-		console.log("cliente datos:", clienteDatos.name);
 
-		//use set functions
-		if (clientsForCobrador) {
-			reducer({
-				type: actionType.SET_CLIENTS_FOR_COBRADOR,
-				//clients: [...clientsForCobrador, clienteDatos.name],
-				clients: [...clientsForCobrador, clienteDatos],
-			});
+		if (!(await consultarClientePorDNI(DNIClient))) {
+			createHistorialClient(clienteDatos.dni);
+			saveClient(clienteDatos);
+
+			//use set functions
+			if (clientsForCobrador) {
+				reducer({
+					type: actionType.SET_CLIENTS_FOR_COBRADOR,
+					//clients: [...clientsForCobrador, clienteDatos.name],
+					clients: [...clientsForCobrador, clienteDatos],
+				});
+			} else {
+				reducer({
+					type: actionType.SET_CLIENTS_FOR_COBRADOR,
+					clients: [clienteDatos.name],
+				});
+			}
+
+			navigate("/");
 		} else {
-			reducer({
-				type: actionType.SET_CLIENTS_FOR_COBRADOR,
-				clients: [clienteDatos.name],
-			});
+			setDNIClienteNoDisponible(true);
 		}
-		console.log("clientes: ", clientsForCobrador);
-
-		navigate("/");
 	};
 
 	return (
@@ -99,10 +107,18 @@ const RegisterClient = () => {
 						/>
 					</div>
 					{/* Falta restringir que tenga 8 digitos obligatoriamente */}
+
 					<div className="m-3">
 						<label htmlFor="" className="pb-2">
 							DNI:
 						</label>
+						{DNIClienteNoDisponible && (
+							<div className="border-2 p-2 w-full rounded-2xl bg-red-500">
+								<p className="text-white text-center">
+									El DNI no esta disponible, elige otro
+								</p>
+							</div>
+						)}
 						<input
 							type="number"
 							placeholder="ingresar DNI"

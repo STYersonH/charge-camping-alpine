@@ -17,30 +17,37 @@ const DescontarMonto = () => {
 	const totalRef = createRef();
 
 	const handleRegistrarMonto = async (e) => {
-		e.preventDefault();
-		const datosDescontarMonto = {
-			id: clientActual.dni + Date.now(),
-			idCliente: clientActual.dni,
-			saldo:
-				parseFloat(clientActual.saldo) - parseFloat(totalRef.current.value),
-			tipoAccion: "descontar",
-			cantidad: null,
-			modelo: null,
-			monto: parseFloat(totalRef.current.value),
-			fecha: new Date().toLocaleDateString(),
-			hora: new Date().toLocaleTimeString(),
-		};
+		// si se ingresa una cadena vacia, no deberia ocurrir nada
+		if (totalRef.current.value) {
+			console.log("total ref current value: ", totalRef.current.value);
+			e.preventDefault();
+			const datosDescontarMonto = {
+				id: clientActual.dni + Date.now(),
+				idCliente: clientActual.dni,
+				saldo:
+					parseFloat(clientActual.saldo) - parseFloat(totalRef.current.value),
+				tipoAccion: "descontar",
+				cantidad: null,
+				modelo: null,
+				monto: parseFloat(totalRef.current.value),
+				fecha: new Date().toLocaleDateString(),
+				hora: new Date().toLocaleTimeString(),
+			};
 
-		await agregarHistorial(datosDescontarMonto);
-		await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
+			await agregarHistorial(datosDescontarMonto);
+			await actualizarMonto(datosDescontarMonto.saldo, clientActual.dni);
 
-		const client = await getClient(clientActual.dni);
+			const client = await getClient(clientActual.dni);
 
-		//actualzar el cliente actual despues de descontar monto
-		await reducer({
-			type: actionType.SET_CLIENT_IN_USE,
-			clientActual: client,
-		});
+			//actualzar el cliente actual despues de descontar monto
+			await reducer({
+				type: actionType.SET_CLIENT_IN_USE,
+				clientActual: client,
+			});
+		}
+		// else {
+		// 	console.log("no se pudo descontar monto por que no habia");
+		// }
 
 		navigate(`/${clientActual.userame}`);
 	};

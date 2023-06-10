@@ -24,7 +24,8 @@ const Historial = () => {
 		const obtenerHistorial = async () => {
 			try {
 				const historialData = await getHistorialByCliente(clientActual.dni);
-				await setHistorial(historialData.slice().reverse());
+				//await setHistorial(historialData.slice().reverse());
+				await setHistorial(historialData);
 			} catch (error) {
 				console.error(error);
 			}
@@ -43,7 +44,7 @@ const Historial = () => {
 				<p className="w-1/4">Saldo</p>
 			</div>
 			<div className="border-2 m-2"></div>
-			{historial?.reverse().map((hist, id) => (
+			{historial?.map((hist, id) => (
 				<div
 					onClick={() => {
 						handleClickHistorial(hist);
