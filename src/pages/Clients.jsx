@@ -9,6 +9,9 @@ const Clients = () => {
 	// Obtener regerencias
 	const clientNameRef = createRef();
 
+	// Eliminar del localStorage el cliente actual
+	localStorage.removeItem("actualClient");
+
 	/* mensajito: tenemos que clonar este repo ya que eso funcionaba */
 
 	// Hooks
@@ -31,6 +34,7 @@ const Clients = () => {
 								type: actionType.SET_CLIENT_IN_USE,
 								clientActual: client,
 							});
+							localStorage.setItem("actualClient", JSON.stringify(client));
 							navigate(`/${client.username}`);
 						}}
 					>
