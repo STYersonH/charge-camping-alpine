@@ -18,6 +18,7 @@ const RegisterClient = () => {
 	const clientNameRef = createRef();
 	const clientNumberRef = createRef();
 	const clientDNIRef = createRef();
+	const clientSaldoInicialRef = createRef();
 	const clientCiudadRef = createRef();
 	const clientCentroComercialRef = createRef();
 
@@ -34,6 +35,7 @@ const RegisterClient = () => {
 		const nameClient = clientNameRef.current.value;
 		const numberClient = clientNumberRef.current.value;
 		const DNIClient = clientDNIRef.current.value;
+		const saldoInicialClient = clientSaldoInicialRef.current.value;
 		const ciudadClient = clientCiudadRef.current.value;
 		const centroComercialClient = clientCentroComercialRef.current.value;
 		const usernameClient = slugify(nameClient, { lower: true });
@@ -47,13 +49,13 @@ const RegisterClient = () => {
 			dni: DNIClient,
 			ciudad: ciudadClient,
 			centroComercial: centroComercialClient,
-			saldo: 0,
+			saldo: saldoInicialClient,
 			fecha: new Date().toLocaleDateString(),
 			hora: new Date().toLocaleTimeString(),
 		};
 
 		if (!(await consultarClientePorDNI(DNIClient))) {
-			createHistorialClient(clienteDatos.dni);
+			createHistorialClient(clienteDatos.dni, saldoInicialClient);
 			saveClient(clienteDatos);
 
 			//use set functions
@@ -124,6 +126,18 @@ const RegisterClient = () => {
 							placeholder="ingresar DNI"
 							className="border-2 p-2 w-full rounded-2xl"
 							ref={clientDNIRef}
+						/>
+					</div>
+
+					<div className="m-3">
+						<label htmlFor="" className="pb-2">
+							saldo inicial:
+						</label>
+						<input
+							type="number"
+							placeholder="ingresar el saldo inicial"
+							className="border-2 p-2 w-full rounded-2xl"
+							ref={clientSaldoInicialRef}
 						/>
 					</div>
 

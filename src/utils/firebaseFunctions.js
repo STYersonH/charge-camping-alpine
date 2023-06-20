@@ -76,10 +76,10 @@ export const consultarClientePorDNI = async (dni) => {
 
 // Create a new historial for new client
 //Saving a new client
-export const createHistorialClient = async (idCliente) => {
+export const createHistorialClient = async (idCliente, saldoInicial) => {
   const data = {
     idCliente: idCliente,
-    saldo: 0,
+    saldo: saldoInicial,
     tipoAccion: "inicial",
     cantidad: null,
     modelo: null,
