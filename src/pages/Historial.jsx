@@ -6,10 +6,11 @@ import AgregarHistorial from "../components/AgregarHistorial";
 import { useNavigate } from "react-router-dom";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { actionType } from "../context/reducer";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const Historial = () => {
 	const navigate = useNavigate();
-	const [{ clientActual, historialActual }, reducer] = useStateValue();
+	const [{ clientActual, historialActual, user }, reducer] = useStateValue();
 	const [historial, setHistorial] = useState([]);
 
 	// Al hacer click, se actualiza el historialActual
@@ -33,6 +34,12 @@ const Historial = () => {
 
 		obtenerHistorial();
 	}, [clientActual.dni]);
+
+	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+	}, []);
 
 	return (
 		<div className="">

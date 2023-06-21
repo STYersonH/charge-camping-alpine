@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStateValue } from "../context/StateProvider";
 import { useNavigate } from "react-router-dom";
 import HeaderConBoton from "../components/HeaderConBoton";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const HistorialDetalles = () => {
 	const navigate = useNavigate();
-	const [{ clientActual, historialActual }, reducer] = useStateValue();
+	const [{ clientActual, historialActual, user }, reducer] = useStateValue();
+
+	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+	}, []);
 
 	return (
 		<div>

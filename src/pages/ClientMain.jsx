@@ -11,18 +11,23 @@ import {
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const ClientMain = () => {
 	// Hooks
 	const navigate = useNavigate();
 	const { usernameCliente } = useParams();
-	const [{ clientsForCobrador, clientActual }, reducer] = useStateValue();
+	const [{ clientsForCobrador, clientActual, user }, reducer] = useStateValue();
 	const [saldoCliente, setSaldoCliente] = useState(0);
 
 	console.log("client actual: ", clientActual);
 
 	// Actualizar el saldo del cliente cada vez que se renderice el componente
 	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+
 		const fetchData = async () => {
 			var saldoClient = 0;
 			if ((await getHistorialByCliente(clientActual.dni)).length > 0) {
@@ -40,8 +45,6 @@ const ClientMain = () => {
 
 		fetchData();
 	}, []);
-
-	console.log("saldo cliente: ", saldoCliente);
 
 	return (
 		<div>

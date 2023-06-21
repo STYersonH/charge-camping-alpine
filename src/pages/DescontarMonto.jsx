@@ -1,4 +1,4 @@
-import React, { createRef } from "react";
+import React, { createRef, useEffect } from "react";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
@@ -9,10 +9,11 @@ import {
 } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const DescontarMonto = () => {
 	const navigate = useNavigate();
-	const [{ clientActual }, reducer] = useStateValue();
+	const [{ clientActual, user }, reducer] = useStateValue();
 
 	const totalRef = createRef();
 
@@ -51,6 +52,12 @@ const DescontarMonto = () => {
 
 		navigate(`/${clientActual.userame}`);
 	};
+
+	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+	}, []);
 
 	return (
 		<div className="flex flex-col justify-center">

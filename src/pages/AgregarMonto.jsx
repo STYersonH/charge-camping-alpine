@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useStateValue } from "../context/StateProvider";
 import {
@@ -9,10 +9,11 @@ import {
 import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
 import HeaderConBoton from "../components/HeaderConBoton";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const AgregarMonto = () => {
 	const navigate = useNavigate();
-	const [{ clientActual, mochilas }, reducer] = useStateValue();
+	const [{ clientActual, mochilas, user }, reducer] = useStateValue();
 	const [modeloSeleccionado, setModeloSeleccionado] = useState(mochilas[0]);
 	const [cantidadMochilas, setCantidadMochilas] = useState(0);
 
@@ -54,6 +55,12 @@ const AgregarMonto = () => {
 
 		navigate(`/${clientActual.userame}`);
 	};
+
+	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+	}, []);
 
 	return (
 		<div className="flex flex-col justify-center">

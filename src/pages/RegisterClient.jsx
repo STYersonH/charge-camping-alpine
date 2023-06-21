@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useStateValue } from "../context/StateProvider";
 import {
@@ -12,6 +12,7 @@ import { centrosComerciales } from "../data/centrosComerciales";
 import { ciudades } from "../data/ciudades";
 import slugify from "slugify";
 import HeaderConBoton from "../components/HeaderConBoton";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const RegisterClient = () => {
 	// Obtener regerencias
@@ -77,6 +78,12 @@ const RegisterClient = () => {
 			setDNIClienteNoDisponible(true);
 		}
 	};
+
+	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+	}, []);
 
 	return (
 		<div className="flex flex-col justify-center">

@@ -3,7 +3,8 @@ import { agregarMochila, savePedido } from "../utils/firebaseFunctions";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
-import { createRef } from "react";
+import { createRef, useEffect } from "react";
+import { usuariosConPermiso } from "../data/UsuariosConPermiso";
 
 const RealizarPedido = () => {
 	// Obtener regerencias
@@ -11,7 +12,9 @@ const RealizarPedido = () => {
 	const pedidoDetallesRef = createRef();
 
 	const navigate = useNavigate();
-	const [{ clientActual, mochilas }, reducer] = useStateValue();
+	const [{ clientActual, mochilas, user }, reducer] = useStateValue();
+	// Agregar al local storage los productos
+	localStorage.setItem("products", JSON.stringify(mochilas));
 
 	const handleAddingProduct = (e) => {
 		//prevenir la accion de enviar el formulario
@@ -34,6 +37,12 @@ const RealizarPedido = () => {
 		navigate(`/${clientActual.username}`);
 	};
 
+	useEffect(() => {
+		if (!usuariosConPermiso.includes(user.email)) {
+			navigate("/");
+		}
+	}, []);
+
 	return (
 		<div className="flex flex-col justify-center">
 			<HeaderConBoton link2regresar={clientActual.username} />
@@ -52,7 +61,7 @@ const RealizarPedido = () => {
 							className="bg-white border-2 p-2 rounded-2xl w-full"
 							ref={productoModelRef}
 						>
-							{mochilas.map((mochila) => (
+							{mochilas?.map((mochila) => (
 								<option key={mochila.id} value={mochila.model}>
 									{mochila.model}
 								</option>

@@ -12,13 +12,12 @@ const Clients = () => {
 	// Eliminar del localStorage el cliente actual
 	localStorage.removeItem("actualClient");
 
-	/* mensajito: tenemos que clonar este repo ya que eso funcionaba */
-
 	// Hooks
 	const navigate = useNavigate();
-	const [{ clientsForCobrador }, reducer] = useStateValue();
+	const [{ clientsForCobrador, user }, reducer] = useStateValue();
 	const [clientAdding, setClientAdding] = useState("none"); //none, creating
 	console.log("clients for cobrador desde clients: ", clientsForCobrador);
+	console.log("Usuario: ", user);
 	return (
 		<div className="flex flex-col justify-center mt-3">
 			<h1 className="text-3xl text-center ">Clientes</h1>
