@@ -1,4 +1,5 @@
 import React from "react";
+import { formatearFecha } from "../utils/functions";
 
 const AgregarHistorial = ({ historial }) => {
 	const { fecha, monto, saldo, tipoAccion } = historial;
@@ -25,7 +26,9 @@ const AgregarHistorial = ({ historial }) => {
 								/>
 							</svg>
 						</div>
-						<div className="w-4/12 text-gray-600">{historial.fecha}</div>
+						<div className="w-4/12 text-gray-600">
+							{formatearFecha(historial.fecha)}
+						</div>
 						<div className="w-1/4 text-gray-600">{`   --   `}</div>
 						<div className="w-1/4 text-gray-600">{saldo}</div>
 					</>
@@ -48,7 +51,9 @@ const AgregarHistorial = ({ historial }) => {
 								/>
 							</svg>
 						</div>
-						<div className="w-4/12 text-red-600">{historial.fecha}</div>
+						<div className="w-4/12 text-red-600">
+							{formatearFecha(historial.fecha)}
+						</div>
 						<div className="w-1/4 text-red-600">+{monto}</div>
 						<div className="w-1/4 text-red-600">{saldo}</div>
 					</>
@@ -71,7 +76,9 @@ const AgregarHistorial = ({ historial }) => {
 								/>
 							</svg>
 						</div>
-						<div className="w-4/12 text-green-600">{historial.fecha}</div>
+						<div className="w-4/12 text-green-600">
+							{formatearFecha(historial.fecha)}
+						</div>
 						<div className="w-1/4 text-green-600">-{monto}</div>
 						<div className="w-1/4 text-green-600">{saldo}</div>
 					</>

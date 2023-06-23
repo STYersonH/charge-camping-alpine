@@ -150,12 +150,12 @@ export const getSaldoCliente = async (idCliente) => {
       const fechaActual = new Date(
         registroActual
           .data()
-          .fecha.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, "$2/$1/$3")
+          .fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3/$2/$1")
       );
       const fechaSiguiente = new Date(
         registroSiguiente
           .data()
-          .fecha.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, "$2/$1/$3")
+          .fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3/$2/$1")
       );
       const horaActual = new Date("1970/01/01 " + registroActual.data().hora);
       const horaSiguiente = new Date(
@@ -174,8 +174,6 @@ export const getSaldoCliente = async (idCliente) => {
       }
     }
   );
-
-  //console.log("El registro mas reciente: ", registroMasReciente.data());
 
   // Acceder a los datos del registro más reciente
   const saldoCliente = registroMasReciente.data().saldo;
