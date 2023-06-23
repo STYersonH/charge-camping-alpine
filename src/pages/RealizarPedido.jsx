@@ -5,6 +5,7 @@ import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { createRef, useEffect } from "react";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
+import { obtenerFechaActual } from "../utils/functions";
 
 const RealizarPedido = () => {
 	// Obtener regerencias
@@ -29,7 +30,7 @@ const RealizarPedido = () => {
 			client: clientActual.dni,
 			model: modelProduct,
 			detalles: pedidoDetalles,
-			fechaAdiccion: new Date().toLocaleDateString(),
+			fechaAdiccion: obtenerFechaActual(),
 			horaAdiccion: new Date().toLocaleTimeString(),
 		};
 		savePedido(productDatos);

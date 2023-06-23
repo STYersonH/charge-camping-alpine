@@ -10,6 +10,7 @@ import {
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
+import { obtenerFechaActual } from "../utils/functions";
 
 const DescontarMonto = () => {
 	const navigate = useNavigate();
@@ -31,7 +32,7 @@ const DescontarMonto = () => {
 				cantidad: null,
 				modelo: null,
 				monto: parseFloat(totalRef.current.value),
-				fecha: new Date().toLocaleDateString(),
+				fecha: obtenerFechaActual(),
 				hora: new Date().toLocaleTimeString(),
 			};
 

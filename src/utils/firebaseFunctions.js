@@ -76,7 +76,7 @@ export const consultarClientePorDNI = async (dni) => {
 
 // Create a new historial for new client
 //Saving a new client
-export const createHistorialClient = async (idCliente, saldoInicial) => {
+export const createHistorialClient = async (idCliente, fecha,  saldoInicial) => {
   const data = {
     idCliente: idCliente,
     saldo: saldoInicial,
@@ -84,7 +84,7 @@ export const createHistorialClient = async (idCliente, saldoInicial) => {
     cantidad: null,
     modelo: null,
     monto: 0,
-    fecha: new Date().toLocaleDateString(),
+    fecha: fecha,
     hora: new Date().toLocaleTimeString(),
   };
   await setDoc(doc(db, "historial", `${idCliente}${Date.now()}`), data, {

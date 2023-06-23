@@ -10,6 +10,7 @@ import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
+import { obtenerFechaActual } from "../utils/functions";
 
 const AgregarMonto = () => {
 	const navigate = useNavigate();
@@ -25,6 +26,7 @@ const AgregarMonto = () => {
 
 	const handleRegistrarMonto = async (e) => {
 		e.preventDefault();
+
 		const datosAgregarMonto = {
 			id: clientActual.dni + Date.now(),
 			idCliente: clientActual.dni,
@@ -38,7 +40,7 @@ const AgregarMonto = () => {
 			//colocar el costo del modelo actual, ya que en un futuro puede variar
 			costoModelo: modeloSeleccionado.price,
 			monto: cantidadMochilas * modeloSeleccionado.price,
-			fecha: new Date().toLocaleDateString(),
+			fecha: obtenerFechaActual(),
 			hora: new Date().toLocaleTimeString(),
 		};
 
