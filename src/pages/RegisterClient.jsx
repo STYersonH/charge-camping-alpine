@@ -13,7 +13,7 @@ import { ciudades } from "../data/ciudades";
 import slugify from "slugify";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
-import { obtenerFechaActual } from "../utils/functions";
+import { obtenerFechaActual, obtenerHoraActual } from "../utils/functions";
 
 const RegisterClient = () => {
 	// Obtener regerencias
@@ -52,16 +52,10 @@ const RegisterClient = () => {
 			ciudad: ciudadClient,
 			centroComercial: centroComercialClient,
 			saldo: saldoInicialClient,
-			fecha: obtenerFechaActual(),
-			hora: new Date().toLocaleTimeString(),
 		};
 
 		if (!(await consultarClientePorDNI(DNIClient))) {
-			createHistorialClient(
-				clienteDatos.dni,
-				clienteDatos.fecha,
-				saldoInicialClient
-			);
+			createHistorialClient(clienteDatos.dni, saldoInicialClient);
 			saveClient(clienteDatos);
 
 			//use set functions

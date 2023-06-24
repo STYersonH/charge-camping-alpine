@@ -10,7 +10,7 @@ import { actionType } from "../context/reducer";
 import { useNavigate } from "react-router-dom";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
-import { obtenerFechaActual } from "../utils/functions";
+import { obtenerFechaActual, obtenerHoraActual } from "../utils/functions";
 
 const AgregarMonto = () => {
 	const navigate = useNavigate();
@@ -41,7 +41,7 @@ const AgregarMonto = () => {
 			costoModelo: modeloSeleccionado.price,
 			monto: cantidadMochilas * modeloSeleccionado.price,
 			fecha: obtenerFechaActual(),
-			hora: new Date().toLocaleTimeString(),
+			hora: obtenerHoraActual(),
 		};
 
 		await agregarHistorial(datosAgregarMonto);

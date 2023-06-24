@@ -6,7 +6,7 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
-import { obtenerFechaActual } from "../utils/functions";
+import { obtenerFechaActual, obtenerHoraActual } from "../utils/functions";
 
 const RegisterProducto = () => {
 	// Obtener regerencias
@@ -37,7 +37,7 @@ const RegisterProducto = () => {
 			caracteristics: caracteristicsProduct,
 			stock: parseInt(stockProduct),
 			fechaAdiccion: obtenerFechaActual(),
-			horaAdiccion: new Date().toLocaleTimeString(),
+			horaAdiccion: obtenerHoraActual(),
 		};
 		agregarMochila(productDatos);
 

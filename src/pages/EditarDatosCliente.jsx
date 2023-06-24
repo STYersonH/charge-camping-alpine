@@ -14,7 +14,7 @@ import { ciudades } from "../data/ciudades";
 
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
-import { obtenerFechaActual } from "../utils/functions";
+import { obtenerFechaActual, obtenerHoraActual } from "../utils/functions";
 
 const EditarDatosCliente = () => {
 	// Obtener regerencias
@@ -43,7 +43,7 @@ const EditarDatosCliente = () => {
 			ciudad: ciudadClient,
 			centroComercial: centroComercialClient,
 			fecha: obtenerFechaActual(),
-			hora: new Date().toLocaleTimeString(),
+			hora: obtenerHoraActual(),
 		};
 
 		await updateClient(clienteDatos, clientActual.dni);

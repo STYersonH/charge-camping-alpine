@@ -17,6 +17,7 @@ import {
 
 //import { set } from "firebase/database"
 import { getDatabase, ref, set } from "firebase/database";
+import { obtenerFechaActual, obtenerHoraActual } from "./functions";
 
 
 //Saving a new client
@@ -76,7 +77,7 @@ export const consultarClientePorDNI = async (dni) => {
 
 // Create a new historial for new client
 //Saving a new client
-export const createHistorialClient = async (idCliente, fecha,  saldoInicial) => {
+export const createHistorialClient = async (idCliente,  saldoInicial) => {
   const data = {
     idCliente: idCliente,
     saldo: saldoInicial,
@@ -84,8 +85,8 @@ export const createHistorialClient = async (idCliente, fecha,  saldoInicial) => 
     cantidad: null,
     modelo: null,
     monto: 0,
-    fecha: fecha,
-    hora: new Date().toLocaleTimeString(),
+    fecha: obtenerFechaActual(),
+    hora: obtenerHoraActual(),
   };
   await setDoc(doc(db, "historial", `${idCliente}${Date.now()}`), data, {
     merge: true,

@@ -10,7 +10,7 @@ import {
 import { actionType } from "../context/reducer";
 import HeaderConBoton from "../components/HeaderConBoton";
 import { usuariosConPermiso } from "../data/UsuariosConPermiso";
-import { obtenerFechaActual } from "../utils/functions";
+import { obtenerFechaActual, obtenerHoraActual } from "../utils/functions";
 
 const DescontarMonto = () => {
 	const navigate = useNavigate();
@@ -33,7 +33,7 @@ const DescontarMonto = () => {
 				modelo: null,
 				monto: parseFloat(totalRef.current.value),
 				fecha: obtenerFechaActual(),
-				hora: new Date().toLocaleTimeString(),
+				hora: obtenerHoraActual(),
 			};
 
 			await agregarHistorial(datosDescontarMonto);

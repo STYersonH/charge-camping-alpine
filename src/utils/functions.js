@@ -16,3 +16,12 @@ export const formatearFecha = (fecha) => {
 	console.log("fecha", fecha, "-> ", `${dia}/${mes}/${anio}`);
 	return `${dia}/${mes}/${anio}`;
 };
+
+export const obtenerHoraActual = () => {
+	const hora = new Date();
+	const opciones = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+	const horaFormateada = hora.toLocaleTimeString(undefined, opciones);
+	return horaFormateada;
+}
+
+console.log(obtenerHoraActual());
